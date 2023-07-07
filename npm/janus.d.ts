@@ -167,7 +167,7 @@ declare namespace JanusJS {
 	}
 
 	interface OfferParams {
-		tracks?: TrackOptions[];
+		tracks?: TrackOption[];
 		trickle?: boolean;
 		iceRestart?: boolean;
 		success?: (jsep: JSEP) => void;
@@ -248,12 +248,14 @@ declare namespace JanusJS {
 
 		sdpSent: boolean,
 		insertableStreams?: any,
+		externalE2ee?: boolean,
 		candidates: RTCIceCandidateInit[],
 	}
 
 	type PluginCreateAnswerParam = {
 		jsep: JSEP;
-		media: { audioSend: any, videoSend: any };
+		tracks?: TrackOption[];
+		media?: { audioSend: any, videoSend: any };
 		success?: (data: JSEP) => void;
 		error?: (error: string) => void;
 	}

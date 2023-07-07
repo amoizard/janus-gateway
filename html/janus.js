@@ -1888,6 +1888,13 @@ function Janus(gatewayCallbacks) {
 					break;
 				}
 			}
+			if (callbacks.tracks.externalE2ee) {
+				config.externalE2ee = true;
+				pc_config.forceEncodedAudioInsertableStreams = true;
+				pc_config.forceEncodedVideoInsertableStreams = true;
+				pc_config.encodedInsertableStreams = true;
+			}
+
 		}
 		if(RTCRtpSender && (RTCRtpSender.prototype.createEncodedStreams ||
 				(RTCRtpSender.prototype.createEncodedAudioStreams &&
@@ -2186,7 +2193,7 @@ function Janus(gatewayCallbacks) {
 			return null;
 		}
 		// If transforms are present, notify Janus that the media is end-to-end encrypted
-		if(config.insertableStreams)
+		if(config.insertableStreams || config.externalE2ee)
 			offer.e2ee = true;
 		return offer;
 	}
@@ -2223,7 +2230,7 @@ function Janus(gatewayCallbacks) {
 			return null;
 		}
 		// If transforms are present, notify Janus that the media is end-to-end encrypted
-		if(config.insertableStreams)
+		if(config.insertableStreams || config.externalE2ee)
 			answer.e2ee = true;
 		return answer;
 	}
@@ -3170,6 +3177,7 @@ function Janus(gatewayCallbacks) {
 			config.dataChannel = {};
 			config.dtmfSender = null;
 			config.insertableStreams = false;
+			config.externalE2ee = false;
 		}
 		pluginHandle.oncleanup();
 	}
